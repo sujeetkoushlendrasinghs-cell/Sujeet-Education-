@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sujeet Education</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f1f5ff;color:#172554}
+header{background:#0755c9;color:white;padding:25px 18px;border-radius:0 0 22px 22px}
+header h1{margin:0;font-size:27px}
+header p{margin-bottom:0}
+main{padding:16px;max-width:600px;margin:auto}
+.card{background:white;padding:18px;margin:13px 0;border-radius:15px;box-shadow:0 3px 12px #ccd5e5}
+.card h2{margin-top:0;color:#0755c9}
+button{background:#0755c9;color:white;border:0;border-radius:9px;padding:12px 16px;font-size:16px;margin:5px 0}
+button:active{background:#003b91}
+nav{display:flex;gap:7px;flex-wrap:wrap}
+nav button{flex:1}
+.hide{display:none}
+.question{font-size:18px;font-weight:bold}
+.option{display:block;width:100%;text-align:left;background:#e8efff;color:#172554;margin:8px 0}
+footer{text-align:center;padding:20px;color:#64748b}
+</style>
+</head>
+<body>
+
+<header>
+<h1>📘 Sujeet Education</h1>
+<p>सरकारी नौकरी की तैयारी अब आसान हिंदी में</p>
+</header>
+
+<main>
+<nav>
+<button onclick="show('home')">होम</button>
+<button onclick="show('pet')">PET</button>
+<button onclick="show('ntpc')">NTPC</button>
+<button onclick="show('police')">UP Police</button>
+<button onclick="show('test')">टेस्ट</button>
+</nav>
+
+<section id="home">
+<div class="card">
+<h2>आपका स्वागत है!</h2>
+<p>अपनी सरकारी नौकरी की तैयारी शुरू करें।</p>
+<p>📚 आसान हिंदी में पढ़ाई</p>
+<p>📝 अभ्यास प्रश्न</p>
+<p>🎯 मॉक टेस्ट</p>
+</div>
+<div class="card">
+<h2>आज का लक्ष्य</h2>
+<p>प्रतिशत के 10 प्रश्न हल करें।</p>
+<p>रीजनिंग के 10 प्रश्न हल करें।</p>
+</div>
+</section>
+
+<section id="pet" class="hide">
+<div class="card">
+<h2>UPSSSC PET</h2>
+<p>1. सामान्य हिंदी</p>
+<p>2. इतिहास</p>
+<p>3. भूगोल</p>
+<p>4. भारतीय संविधान</p>
+<p>5. गणित</p>
+<p>6. रीजनिंग</p>
+<p>7. सामान्य विज्ञान</p>
+<p>8. करेंट अफेयर्स</p>
+</div>
+</section>
+
+<section id="ntpc" class="hide">
+<div class="card">
+<h2>रेलवे NTPC</h2>
+<p>1. गणित</p>
+<p>2. सामान्य जागरूकता</p>
+<p>3. रीजनिंग</p>
+<p>4. सामान्य विज्ञान</p>
+</div>
+</section>
+
+<section id="police" class="hide">
+<div class="card">
+<h2>UP Police</h2>
+<p>1. सामान्य ज्ञान</p>
+<p>2. सामान्य हिंदी</p>
+<p>3. संख्यात्मक योग्यता</p>
+<p>4. मानसिक अभिरुचि एवं रीजनिंग</p>
+</div>
+</section>
+
+<section id="test" class="hide">
+<div class="card">
+<h2>अभ्यास टेस्ट</h2>
+<div id="quiz"></div>
+<button onclick="next()">अगला प्रश्न</button>
+<p id="result"></p>
+</div>
+</section>
+</main>
+
+<footer>© 2026 Sujeet Education</footer>
+
+<script>
+function show(id){
+document.querySelectorAll('main section').forEach(s=>s.classList.add('hide'));
+document.getElementById(id).classList.remove('hide');
+}
+const questions=[
+{q:"भारत की राजधानी क्या है?",a:["मुंबई","नई दिल्ली","लखनऊ","पटना"],c:1},
+{q:"25 का 20% कितना है?",a:["2","5","10","15"],c:1},
+{q:"एक सप्ताह में कितने दिन होते हैं?",a:["5","6","7","8"],c:2},
+{q:"भारत का संविधान कब लागू हुआ?",a:["1947","1950","1949","1952"],c:1}
+];
+let n=0,score=0,answered=false;
+function load(){
+let q=questions[n];
+document.getElementById('quiz').innerHTML=
+'<p class="question">'+(n+1)+'. '+q.q+'</p>'+
+q.a.map((x,i)=>'<button class="option" onclick="answer('+i+')">'+x+'</button>').join('');
+document.getElementById('result').innerText='';
+answered=false;
+}
+function answer(i){
+if(answered)return;
+answered=true;
+if(i===questions[n].c){
+score++;
+document.getElementById('result').innerText='सही जवाब! ✅';
+}else{
+document.getElementById('result').innerText='गलत जवाब। सही उत्तर: '+questions[n].a[questions[n].c];
+}
+}
+function next(){
+if(!answered){
+document.getElementById('result').innerText='पहले उत्तर चुनें।';
+return;
+}
+n++;
+if(n>=questions.length){
+document.getElementById('quiz').innerHTML='टेस्ट पूरा! आपके सही उत्तर: '+score+'/'+questions.length;
+document.getElementById('result').innerText='';
+n=0;score=0;
+return;
+}
+load();
+}
+load();
+</script>
+</body>
+</html>
